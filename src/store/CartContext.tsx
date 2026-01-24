@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { toast } from "react-hot-toast";
 import * as cartApi from "../api/cart";
 import * as orderApi from "../api/orders";
 import { fetchProducts } from "../api/products";
@@ -58,40 +59,65 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addItem = async (productId: number, quantity = 1) => {
     if (!user) return;
-    await cartApi.addToCart(user.id, productId, quantity);
-    await hydrate();
+    try {
+      await cartApi.addToCart(user.id, productId, quantity);
+      await hydrate();
+      toast.success("장바구니에 담았어요.");
+    } catch (error) {
+      toast.error("장바구니 담기에 실패했어요.");
+      throw error;
+    }
   };
 
   const updateItem = async (itemId: number, quantity: number) => {
     if (!user) return;
-    if (quantity <= 0) {
-      await cartApi.removeCartItem(itemId);
-    } else {
-      await cartApi.updateCartItem(itemId, quantity);
+    try {
+      if (quantity <= 0) {
+        await cartApi.removeCartItem(itemId);
+        toast("장바구니에서 삭제했어요.");
+      } else {
+        await cartApi.updateCartItem(itemId, quantity);
+        toast.success("수량을 변경했어요.");
+      }
+      await hydrate();
+    } catch (error) {
+      toast.error("장바구니 수정에 실패했어요.");
+      throw error;
     }
-    await hydrate();
   };
 
   const removeItem = async (itemId: number) => {
     if (!user) return;
-    await cartApi.removeCartItem(itemId);
-    await hydrate();
+    try {
+      await cartApi.removeCartItem(itemId);
+      await hydrate();
+      toast("장바구니에서 삭제했어요.");
+    } catch (error) {
+      toast.error("장바구니 삭제에 실패했어요.");
+      throw error;
+    }
   };
 
   const checkout = async () => {
     if (!user || items.length === 0) return;
-    const orderItems: OrderItem[] = items.map((item) => ({
-      productId: item.productId,
-      quantity: item.quantity,
-      price: item.product.price,
-    }));
-    const total = items.reduce(
-      (sum, item) => sum + item.product.price * item.quantity,
-      0,
-    );
-    await orderApi.createOrder(user.id, orderItems, total);
-    await cartApi.clearCart(user.id);
-    await hydrate();
+    try {
+      const orderItems: OrderItem[] = items.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        price: item.product.price,
+      }));
+      const total = items.reduce(
+        (sum, item) => sum + item.product.price * item.quantity,
+        0,
+      );
+      await orderApi.createOrder(user.id, orderItems, total);
+      await cartApi.clearCart(user.id);
+      await hydrate();
+      toast.success("주문이 완료됐어요.");
+    } catch (error) {
+      toast.error("구매에 실패했어요.");
+      throw error;
+    }
   };
 
   const value = useMemo(() => {

@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import { Navbar } from "./components/Navbar";
 import { CartPage } from "./pages/CartPage";
 import { HomePage } from "./pages/HomePage";
@@ -23,6 +24,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
+      <Toaster position="top-center" />
       <footer className="border-t border-slate-200 bg-white">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-6 text-sm text-slate-500">
           <span>브리즈 쇼핑몰</span>

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { toast } from "react-hot-toast";
 import * as authApi from "../api/auth";
 import type { User } from "../types";
 
@@ -31,9 +32,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const loggedIn = await authApi.login(email, password);
-    setUser(loggedIn);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(loggedIn));
+    try {
+      const loggedIn = await authApi.login(email, password);
+      setUser(loggedIn);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(loggedIn));
+      toast.success("로그인 완료!");
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "로그인에 실패했어요.";
+      toast.error(message);
+      throw error;
+    }
   };
 
   const signup = async (payload: {
@@ -41,14 +50,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     email: string;
     password: string;
   }) => {
-    const created = await authApi.signup(payload);
-    setUser(created);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(created));
+    try {
+      const created = await authApi.signup(payload);
+      setUser(created);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(created));
+      toast.success("회원가입이 완료됐어요.");
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "회원가입에 실패했어요.";
+      toast.error(message);
+      throw error;
+    }
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem(STORAGE_KEY);
+    toast("로그아웃했어요.");
   };
 
   const value = useMemo(

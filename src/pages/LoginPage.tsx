@@ -87,6 +87,11 @@ export const LoginPage = () => {
           회원가입
         </Link>
       </p>
+      <div className="mt-6 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
+        <p className="font-semibold text-slate-600">초기 로그인 정보</p>
+        <p className="mt-2">이메일: demo@breeze.com</p>
+        <p>비밀번호: demo1234</p>
+      </div>
     </div>
   )
 }
