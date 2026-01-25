@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "concurrently \"npm run api\" \"vite\"",
     "build": "tsc -b && vite build",
-    "test": "jest",
-    "test:watch": "jest --watch",
     "e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
     "lint": "eslint .",
@@ -27,7 +25,6 @@
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@playwright/test": "^1.58.0",
-    "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
@@ -37,9 +34,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "jest": "^30.2.0",
     "json-server": "^1.0.0-beta.3",
-    "ts-jest": "^29.4.6",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"
