@@ -37,4 +37,3 @@ test("로그인 -> 장바구니 담기 -> 구매", async ({ page, request }) => 
   await resetCartForUser(request, "1");
   await resetOrdersForUser(request, "1");
 });
-
