@@ -65,5 +65,19 @@
     }
   ],
   "cartItems": [],
-  "orders": []
+  "orders": [
+    {
+      "id": "c0da",
+      "userId": "1",
+      "items": [
+        {
+          "productId": "1",
+          "quantity": 1,
+          "price": 89000
+        }
+      ],
+      "total": 89000,
+      "createdAt": "2026-01-28T03:57:26.734Z"
+    }
+  ]
 }
